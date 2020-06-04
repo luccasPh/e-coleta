@@ -1,0 +1,112 @@
+.modal {
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(14,10,20,0.9); /* Overlay effect: translucent background: black w/ partial opacity */
+    z-index: 1; /* Overlay effect: positioned over other containers */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    position: fixed; /* Fix position on the top-left corner*/
+    top: 0;
+    left: 0;
+    overflow: auto; /* Enable scroll if needed */
+    padding-top: 80px; /* Location of the content container */
+  }
+  
+  /* Modal content */
+  .modal-content {
+    background-color: transparent;
+    width: 70%; /* Width in proportion to its parent container*/
+    max-width: 640px; /* Max width where it stops expanding */
+    height: 70%; /* Height in proportion to its parent container */
+    margin: auto; /* Auto margin according to the element width */
+    padding: 10px;
+    border-radius: 20px; /* Optional. Rounds container corners */
+  }
+  
+  .modal-flex {
+    display: flex;
+    height: 100%; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-flex h1{
+    color: #edebf1;
+  }
+  
+  .modal-info {
+    background-color: #888;
+    border: 1px solid #888;
+  }
+  
+  /* Close button */
+  .close {
+    color: #aaaaaa;
+    float: right; /* Positioned to the right of the parent container whichever size it is */
+    font-size: 25px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #modal-id .modal a {
+    width: 20%;
+    max-width: 360px;
+    height: 44px;
+    background: var(--primary-color);
+    border-radius: 8px;
+    text-decoration: none;
+  
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  
+    margin-top: 40px;
+  }
+  #modal-id .modal a {
+    width: 20%;
+    max-width: 360px;
+    height: 44px;
+    background: var(--primary-color);
+    border-radius: 8px;
+    text-decoration: none;
+  
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  
+    margin-top: 40px;
+  }
+  
+  #modal-id .modal a span {
+    display: block;
+    background: rgba(0, 0, 0, 0.08);
+    width: 44px;
+    height: 44px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  #modal-id .modal a span svg {
+    color: #FFF;
+    width: 20px;
+    height: 20px;
+  }
+  
+  #modal-id .modal a strong {
+    flex: 1;
+    text-align: center;
+    color: #FFF;
+  }
+  
+  #modal-id .modal a:hover {
+    background: #2FB86E;
+  }

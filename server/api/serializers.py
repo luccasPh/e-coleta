@@ -13,16 +13,16 @@ class ItemListSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'image_url']
 
 class PointCreateSerializer(serializers.ModelSerializer):
-    item = serializers.PrimaryKeyRelatedField(
+    items = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=Item.objects.all()
     )
     class Meta:
         model = Point
-        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'city', 'uf', 'latitude', 'longitude', 'item']
+        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'city', 'uf', 'latitude', 'longitude', 'items']
 
 class PointDetailSerializer(serializers.ModelSerializer):
-    item = ItemListSerializer(many=True)
+    items = ItemListSerializer(many=True)
     class Meta:
         model = Point
-        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'city', 'uf', 'latitude', 'longitude', 'item']
+        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'city', 'uf', 'latitude', 'longitude', 'items']

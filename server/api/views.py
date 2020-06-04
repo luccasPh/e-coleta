@@ -22,10 +22,14 @@ class PointList(APIView):
             items = query["items"].replace(" ", "").split(",")
             city = query["city"]
             uf = query["uf"]
-            point = Point.objects.filter(item__id__in=items).filter(city=city).filter(uf=uf).distinct()
+            point = Point.objects.filter(items__id__in=items).filter(city=city).filter(uf=uf).distinct()
             serializer = PointDetailSerializer(point, many=True)
 
             return Response(serializer.data)
+        
+        point = Point.objects.all()
+        serializer = PointDetailSerializer(point, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = PointCreateSerializer(data=request.data)

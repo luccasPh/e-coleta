@@ -10,7 +10,7 @@ class Point(models.Model):
     uf = models.CharField(max_length=2)
     latitude = models.FloatField()
     longitude = models.FloatField()
-    item = models.ManyToManyField("Item", related_name="point_items")
+    items = models.ManyToManyField("Item", related_name="point_items")
 
     def __str__(self):
         return self.name

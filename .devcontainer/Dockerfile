@@ -8,6 +8,8 @@ ARG VARIANT=3
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
 ENV PYTHONUNBUFFERED 1
+ENV REACT_NATIVE_PACKAGER_HOSTNAME="192.168.100.5"
+
 
 # This image includes a non-root user with sudo access. Use the "remoteUser" 
 # property in devcontainer.json to use it. On Linux, update the values below 
@@ -35,7 +37,7 @@ RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requ
 # Install node for building front-ends
 RUN apt-get update \
     && apt-get -y install curl gnupg \
-    && curl -sL https://deb.nodesource.com/setup_11.x  | bash - \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get -y install nodejs
 #
 # ENV DEBIAN_FRONTEND=noninteractive

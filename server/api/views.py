@@ -11,25 +11,45 @@ from .serializers import *
 class ItemList(APIView):
     def get(self, request):
         items = Item.objects.all()
-        serializer = ItemListSerializer(items, many=True)
+        serializers = ItemListSerializer(items, many=True)
 
-        return Response(serializer.data)
+        return Response(serializers.data)
+
+class PointLatiLong(APIView):
+    def get(self, request, city):
+        point = Point.objects.filter(city=city).first()
+        serializers = PointLatiLongSerializer(point)
+
+        return Response(serializers.data)
+
+class PointUfList(APIView):
+    def get(self, request):
+        points_uf = Point.objects.all()
+        serializers = PointUfListSerializer(points_uf, many=True)
+
+        return Response(serializers.data)
+
+class PointCityList(APIView):
+    def get(self, request, uf):
+        points_city = Point.objects.filter(uf=uf)
+        serializers = PointCityListSerializer(points_city, many=True)
+
+        return Response(serializers.data)
 
 class PointList(APIView):
     def get(self, request):
-        if request.query_params:
+        try:
             query = request.query_params
-            items = query["items"].replace(" ", "").split(",")
+            items = query["items[]"].replace("[", "").replace("]", "").split(",")
             city = query["city"]
             uf = query["uf"]
             point = Point.objects.filter(items__id__in=items).filter(city=city).filter(uf=uf).distinct()
-            serializer = PointDetailSerializer(point, many=True)
+            serializer = PointSerializer(point, many=True)
 
             return Response(serializer.data)
         
-        point = Point.objects.all()
-        serializer = PointDetailSerializer(point, many=True)
-        return Response(serializer.data)
+        except:
+            return Response([])
 
     def post(self, request):
         serializer = PointCreateSerializer(data=request.data)
@@ -43,8 +63,9 @@ class PointDetail(APIView):
     def get(self, request, pk):
         try:
             point = Point.objects.get(pk=pk)
-            serializers = PointDetailSerializer(point)
+            serializers = PointSerializer(point)
             return Response(serializers.data)
+            
         except:
             return Response("fail", status=status.HTTP_400_BAD_REQUEST)
     

@@ -40,7 +40,8 @@ const CreatePoints = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        whatsapp: ''
+        whatsapp: '',
+        street: ''
     })
 
     const [selectedItems, setSelectedItems] = useState<number[]>([])
@@ -118,7 +119,7 @@ const CreatePoints = () => {
     async function handleSubmit(event: FormEvent){
         let isError = false
         event.preventDefault()
-        const {name, email, whatsapp} = formData
+        const {name, email, whatsapp, street} = formData
         const uf = selectedUf
         const city = selectedCity
         const [latitude, longitude] = selectedPosition
@@ -131,11 +132,12 @@ const CreatePoints = () => {
             whatsapp: whatsapp,
             latitude: latitude,
             longitude: longitude,
+            street: street,
             uf: uf,
             city: city,
             items: items,
         }
-        
+
         for (var [key, value] of Object.entries(data)) {
             if(value === '' || value === "0" || value === 0 || (key === 'items' && items.length === 0)){
                 window.scrollTo(0, 0)
@@ -153,6 +155,9 @@ const CreatePoints = () => {
                     notify.show('Digite um numero de Whatsapp!', 'warning')
                 }
                 else if(key === 'latitude' && value === 0){
+                    notify.show('Marque um Endereço no mapa!', 'warning')
+                }
+                else if(key === 'street' && value === ''){
                     notify.show('Marque um Endereço no mapa!', 'warning')
                 }
                 else if(key === 'uf' && value === "0"){
@@ -249,14 +254,16 @@ const CreatePoints = () => {
                         <span>Selecione o endereço no mapa</span>
                     </legend>
 
-                    <Map center={initialPosition} zoom={15} onClick={handleMapClick}>
-                        <TileLayer
-                            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
+                    {initialPosition[0] !== 0 && (
+                        <Map center={initialPosition} zoom={15} onClick={handleMapClick}>
+                            <TileLayer
+                                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
 
-                        <Marker position={selectedPosition} zoom={15} />
-                    </Map>
+                            <Marker position={selectedPosition} zoom={15} />
+                        </Map>
+                    )}
 
                     <div className="field-group">
                         <div className="field">
@@ -289,6 +296,15 @@ const CreatePoints = () => {
                             </select>
                         </div>
                     </div>
+                    <div className="field">
+                            <label htmlFor="street">Logradouro/Rua</label>
+                            <input 
+                                type="text"
+                                name="street"
+                                id="street"
+                                onChange={handleInputChange}
+                            />
+                        </div>
                 </fieldset>
 
                 <fieldset>

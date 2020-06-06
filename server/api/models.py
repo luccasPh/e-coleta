@@ -6,6 +6,7 @@ class Point(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     whatsapp = models.CharField(max_length=255)
+    street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     uf = models.CharField(max_length=2)
     latitude = models.FloatField()

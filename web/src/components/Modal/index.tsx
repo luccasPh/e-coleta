@@ -1,5 +1,5 @@
 import React from 'react'
-import './modal.css'
+import './style.css'
 import check from '../../assets/check.svg'
 import {FiArrowLeft} from 'react-icons/fi'
 import {useHistory} from 'react-router-dom'

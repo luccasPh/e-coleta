@@ -1,15 +1,18 @@
 import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react'
-import {FiArrowLeft} from 'react-icons/fi'
-import {Link} from 'react-router-dom'
-import {Map, TileLayer, Marker} from "react-leaflet";
-import {LeafletMouseEvent} from "leaflet";
+import { FiArrowLeft } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { Map, TileLayer, Marker } from "react-leaflet";
+import { LeafletMouseEvent } from "leaflet";
+import Notifications, { notify } from 'react-notify-toast';
+
 import api from '../../services/api'
 import ibge from '../../services/ibge'
-import Modal from './modal'
-import Notifications, {notify} from 'react-notify-toast';
+import logo from "../../assets/logo.svg";
+import Modal from '../../components/Modal'
+import Dropzone from "../../components/Dropzone"
 
 import './styles.css'
-import logo from "../../assets/logo.svg";
+
 
 interface Item{
     id: number,
@@ -36,6 +39,7 @@ const CreatePoints = () => {
     const [selectedCity, setSelectedCity] = useState("0")
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0])
     const [initialPosition, setinitialPosition] = useState<[number, number]>([0,0])
+    const [selectedFile, setSelectedFile] = useState<File>()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -117,16 +121,16 @@ const CreatePoints = () => {
     }
 
     async function handleSubmit(event: FormEvent){
-        let isError = false
         event.preventDefault()
+        let isError = false
         const {name, email, whatsapp, street} = formData
         const uf = selectedUf
         const city = selectedCity
         const [latitude, longitude] = selectedPosition
         const items = selectedItems
 
-        const data = {
-            image: "fake-imagem",    
+        const dataValid = {
+            image: selectedFile?.name,    
             name: name,
             email: email,
             whatsapp: whatsapp,
@@ -138,12 +142,12 @@ const CreatePoints = () => {
             items: items,
         }
 
-        for (var [key, value] of Object.entries(data)) {
-            if(value === '' || value === "0" || value === 0 || (key === 'items' && items.length === 0)){
+        for (var [key, value] of Object.entries(dataValid)) {
+            if(value === undefined || value === '' || value === "0" || value === 0 || (key === 'items' && items.length === 0)){
                 window.scrollTo(0, 0)
                 
-                if(key === 'image' && value === ''){
-                    notify.show('Digite um Email', 'warning')
+                if(key === 'image' && value === undefined){
+                    notify.show('Selecione uma imagem', 'warning')
                 }
                 else if(key === 'name' && value === ''){
                     notify.show('Digite o Nome da Entidade!', 'warning')
@@ -175,8 +179,22 @@ const CreatePoints = () => {
             }
             
         }
+        const dataSubmit = new FormData()
 
-        await api.post('points/', data)
+        if(selectedFile){
+            dataSubmit.append('image', selectedFile)
+        }
+        dataSubmit.append('name', name)
+        dataSubmit.append('email', email)
+        dataSubmit.append('whatsapp', whatsapp)
+        dataSubmit.append('latitude', String(latitude))
+        dataSubmit.append('longitude', String(longitude))
+        dataSubmit.append('street', street)
+        dataSubmit.append('uf', uf)
+        dataSubmit.append('city', city)
+        dataSubmit.append('items', items.join(','))
+
+        await api.post('points/', dataSubmit)
             .catch((errors) => {
                 if( errors.response ){
                     isError = true 
@@ -210,6 +228,16 @@ const CreatePoints = () => {
 
             <form onSubmit={handleSubmit}>
                 <h1>Cadastro do ponto de coleta</h1>
+                
+                <fieldset>
+                    <legend>
+                        <h2>Imagem</h2>
+                    </legend>
+
+                    <Dropzone fileUpload={setSelectedFile}/>
+
+                </fieldset>
+
                 <fieldset>
                     <legend>
                         <h2>Dados</h2>

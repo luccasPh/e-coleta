@@ -8,6 +8,7 @@ import Emoji from 'react-native-emoji';
 import MapView, { Marker } from 'react-native-maps'; 
 import { SvgUri } from 'react-native-svg';
 import api from '../../services/api'
+import FastImage from 'react-native-fast-image'
 
 interface Item{
   id: number,
@@ -28,7 +29,7 @@ interface PointLL {
 interface Point{
   id: number,
   name: string,
-  image: string,
+  image_url: string,
   latitude: number,
   longitude: number
 }
@@ -145,7 +146,7 @@ const Points = () => {
                                 }}
                             >
                                 <View style={styles.mapMarkerContainer}>
-                                    <Image style={styles.mapMarkerImage} source={{ uri: point.image }} />
+                                    <Image style={styles.mapMarkerImage} source={{ uri: point.image_url, cache: "force-cache" }} />
                                     <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                                 </View>
                                 <View style={styles.mapMarkerArrow}/>

@@ -12,7 +12,7 @@ interface Params {
 }
 
 interface Point {
-    image: string,
+    image_url: string,
     name: string,
     email: string,
     whatsapp: string,
@@ -62,7 +62,7 @@ const Detail = () => {
                     <Icon name="arrow-left" size={20} color="#34cb79"/>
                 </TouchableOpacity>
 
-                <Image style={styles.pointImage} source={{ uri: point.image }} />
+                <Image style={styles.pointImage} source={{ uri: point.image_url }} />
 
                 <Text style={styles.pointName}>{point.name}</Text>
                 <Text style={styles.pointItems}>

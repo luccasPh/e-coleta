@@ -11,4 +11,4 @@ urlpatterns = [
    path('points/uf/', PointUfList.as_view()),
    path('points/<str:uf>/city/', PointCityList.as_view()),
    path('points/<str:city>/ll/', PointLatiLong.as_view()),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

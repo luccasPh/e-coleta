@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import FileUploadParser
 
 from .models import *
 from .serializers import *
@@ -37,6 +38,8 @@ class PointCityList(APIView):
         return Response(serializers.data)
 
 class PointList(APIView):
+    parser_class = (FileUploadParser,)
+    
     def get(self, request):
         try:
             query = request.query_params
@@ -53,9 +56,10 @@ class PointList(APIView):
 
     def post(self, request):
         serializer = PointCreateSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
-            return Response("ok", status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -67,5 +71,5 @@ class PointDetail(APIView):
             return Response(serializers.data)
             
         except:
-            return Response("fail", status=status.HTTP_400_BAD_REQUEST)
+            return Response({ 'error': f"id: {pk} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
     

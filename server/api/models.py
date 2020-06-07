@@ -1,8 +1,9 @@
 from django.db import models
+from .utils import upload_to
 
 # Create your models here.
 class Point(models.Model):
-    image = models.CharField(max_length=255)
+    image = models.ImageField(upload_to=upload_to)
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     whatsapp = models.CharField(max_length=255)

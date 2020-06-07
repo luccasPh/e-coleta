@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.http.request import QueryDict
 from .models import *
 
 class ItemListSerializer(serializers.ModelSerializer):
@@ -18,21 +19,31 @@ class PointCreateSerializer(serializers.ModelSerializer):
         queryset=Item.objects.all()
     )
 
-    def to_internal_value(self, data):
+    def to_internal_value(self, data: QueryDict):
+        value = str(data.get('items'))
+        items_list = list(map(int, value.replace(" ", "").split(",")))
+        data.setlist('items', items_list)
+
         values = super().to_internal_value(data)
         values['whatsapp'] = f"55{data['whatsapp']}"
-
         return values
 
     class Meta:
         model = Point
-        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'street', 'city', 'uf', 'latitude', 'longitude', 'items']
+        fields = "__all__"
 
 class PointSerializer(serializers.ModelSerializer):
     items = ItemListSerializer(many=True)
+
+    image_url = serializers.SerializerMethodField()
+
+    def get_image_url(self, obj):
+        url = f"http://192.168.100.5:8000/media/{obj.image}/"
+        return url
+
     class Meta:
         model = Point
-        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'street', 'city', 'uf', 'latitude', 'longitude', 'items']
+        fields = ['id', 'image_url', 'name', 'email', 'whatsapp', 'street', 'city', 'uf', 'latitude', 'longitude', 'items']
 
 class PointUfListSerializer(serializers.ModelSerializer):
     class Meta:

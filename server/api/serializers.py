@@ -35,15 +35,14 @@ class PointCreateSerializer(serializers.ModelSerializer):
 class PointSerializer(serializers.ModelSerializer):
     items = ItemListSerializer(many=True)
 
-    image_url = serializers.SerializerMethodField()
-
-    def get_image_url(self, obj):
-        url = f"http://192.168.100.5:8000/media/{obj.image}/"
-        return url
+    def to_representation(self, instance):
+        data = super(PointSerializer, self).to_representation(instance)
+        data['image'] = f"https://res.cloudinary.com/hndjdlnwz/{ data['image']}"
+        return data
 
     class Meta:
         model = Point
-        fields = ['id', 'image_url', 'name', 'email', 'whatsapp', 'street', 'city', 'uf', 'latitude', 'longitude', 'items']
+        fields = ['id', 'image', 'name', 'email', 'whatsapp', 'street', 'city', 'uf', 'latitude', 'longitude', 'items']
 
 class PointUfListSerializer(serializers.ModelSerializer):
     class Meta:

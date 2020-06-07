@@ -1,9 +1,10 @@
 from django.db import models
 from .utils import upload_to
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Point(models.Model):
-    image = models.ImageField(upload_to=upload_to)
+    image = CloudinaryField('imagem', folder="e-coleta/")
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     whatsapp = models.CharField(max_length=255)

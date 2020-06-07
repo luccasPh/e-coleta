@@ -105,6 +105,12 @@ const CreatePoints = () => {
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>){
         const {name, value} = event.target
+
+        if(name === "whatsapp"){
+            if(isNaN(Number(value))){
+                return
+            }
+        }
         setFormData({...formData, [name]: value})
     }
 
@@ -129,56 +135,62 @@ const CreatePoints = () => {
         const [latitude, longitude] = selectedPosition
         const items = selectedItems
 
-        const dataValid = {
-            image: selectedFile?.name,    
-            name: name,
-            email: email,
-            whatsapp: whatsapp,
-            latitude: latitude,
-            longitude: longitude,
-            street: street,
-            uf: uf,
-            city: city,
-            items: items,
+        if(selectedFile?.name === undefined){
+            notify.show('Selecione uma imagem', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(name === ''){
+            notify.show('Digite o Nome da Entidade!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(email === ''){
+            notify.show('Digite um Email!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(whatsapp === ''){
+            notify.show('Digite um numero de Whatsapp!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(whatsapp.length < 10){
+            notify.show('Digite um numero de Whatsapp valido!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(whatsapp.length < 10){
+            notify.show('Digite um numero de Whatsapp valido!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(latitude === 0){
+            notify.show('Marque um Endereço no mapa!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(street === ''){
+            notify.show('Marque um Endereço no mapa!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(uf === "0"){
+            notify.show('Selecione um Estado!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(city === "0"){
+            notify.show('Selecione uma Cidade!', 'warning')
+            window.scrollTo(0, 0)
+            return
+        }
+        else if(items.length === 0){
+            notify.show('Selecione pelo menos um Item para reciclagem', 'warning')
+            window.scrollTo(0, 0)
+            return
         }
 
-        for (var [key, value] of Object.entries(dataValid)) {
-            if(value === undefined || value === '' || value === "0" || value === 0 || (key === 'items' && items.length === 0)){
-                window.scrollTo(0, 0)
-                
-                if(key === 'image' && value === undefined){
-                    notify.show('Selecione uma imagem', 'warning')
-                }
-                else if(key === 'name' && value === ''){
-                    notify.show('Digite o Nome da Entidade!', 'warning')
-                }
-                else if(key === 'email' && value === ''){
-                    notify.show('Digite um Email!', 'warning')
-                }
-                else if(key === 'whatsapp' && value === ''){
-                    notify.show('Digite um numero de Whatsapp!', 'warning')
-                }
-                else if(key === 'latitude' && value === 0){
-                    notify.show('Marque um Endereço no mapa!', 'warning')
-                }
-                else if(key === 'street' && value === ''){
-                    notify.show('Marque um Endereço no mapa!', 'warning')
-                }
-                else if(key === 'uf' && value === "0"){
-                    notify.show('Selecione um Estado!', 'warning')
-                }
-                else if(key === 'city' && value === "0"){
-                    notify.show('Selecione uma Cidade!', 'warning')
-                }
-                else if(key === 'items' && items.length === 0){
-                    notify.show('Selecione pelo menos um Item para reciclagem', 'warning')
-                }
-
-                return
-                
-            }
-            
-        }
         const dataSubmit = new FormData()
 
         if(selectedFile){
@@ -271,6 +283,8 @@ const CreatePoints = () => {
                                 name="whatsapp"
                                 id="whatsapp"
                                 onChange={handleInputChange}
+                                maxLength={10}
+                                value={formData.whatsapp}
                             />
                         </div>
                     </div>

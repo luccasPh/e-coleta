@@ -100,6 +100,7 @@ const Home = () => {
       setSelectedCity(city)
     }
 
+    console.log(itemsState)
     return (
         <ImageBackground
           source={require('../../assets/home-background.png')} 

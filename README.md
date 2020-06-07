@@ -1,6 +1,6 @@
 # E-Coleta
 
-![capa](capa.png =250x250)
+![capa](capa.png){:height="700px" width="400px"}
 
 Projeto desenvolvido durante a Next Level Week da Rocketseat entre 1/6/2020 - 5/6/2020
 

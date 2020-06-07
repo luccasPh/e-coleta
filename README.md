@@ -1,5 +1,7 @@
-# e-coleta
-Projeto desenvolvido durante a Next Level Week da Rocketseat entre 1/6/2020 - 5/6/2020
+# E-Coleta
+
+<img src="capa.png" width="500">
+
 
 Server: [Django REST framework](https://www.django-rest-framework.org/)
 

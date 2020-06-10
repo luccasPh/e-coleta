@@ -5,7 +5,7 @@
 
 Server: [Django REST framework](https://www.django-rest-framework.org/)
 
-Web: [React](https://pt-br.reactjs.org/)
+Web: [React](https://pt-br.reactjs.org/)<br>
 Site: https://ecoleta-lh.netlify.app/
 
 Mobile: [React Native](https://reactnative.dev/)

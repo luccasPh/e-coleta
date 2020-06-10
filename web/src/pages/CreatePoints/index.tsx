@@ -246,6 +246,7 @@ const CreatePoints = () => {
             setinitialZoom(16)
             setFormData({...formData, ['cep']: ''})
             
+            console.log("ok")
             if(logradouro !== undefined){
                 setFormData({...formData, ['street']: logradouro})
             }

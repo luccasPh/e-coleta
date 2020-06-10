@@ -83,7 +83,7 @@ class CEPAberto(APIView):
             headers = {'Authorization': 'Token token=be7080c1ffea7a0ef315a294000bf3e4'}
             response = requests.get(url, headers=headers)
             json_response = response.json()
-
+            
             data = {}
             data["latitude"], data["longitude"] = float(json_response["latitude"]), float(json_response["longitude"])
             try:
@@ -94,6 +94,5 @@ class CEPAberto(APIView):
             except:
                 return Response(data)
             
-        except Exception as e:
-            return Response({ 'error': e}, status=status.HTTP_400_BAD_REQUEST)
-    
+        except:
+            return Response({ 'error': f"cep: {cep} does not exist"}, status=status.HTTP_400_BAD_REQUEST)

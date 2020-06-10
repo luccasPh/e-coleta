@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: "https://cors-anywhere.herokuapp.com/https://server-ec.herokuapp.com"
+    baseURL: "https://server-ec.herokuapp.com"
 })
 
 export default api;

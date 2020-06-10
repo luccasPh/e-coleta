@@ -11,5 +11,5 @@ urlpatterns = [
    path('points/uf/', PointUfList.as_view()),
    path('points/<str:uf>/city/', PointCityList.as_view()),
    path('points/<str:city>/ll/', PointLatiLong.as_view()),
-   path('search-cep/<int:cep>/', CEPAberto.as_view()),
+   path('search-cep/<str:cep>/', CEPAberto.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

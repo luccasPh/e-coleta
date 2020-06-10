@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api.apps.ApiConfig',
     'corsheaders',
-    'cloudinary',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -135,20 +135,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
+STATIC_URL = '/static/'
+
+MEDIA_URL =  '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "api/media")
 
 CLOUDINARY = {
     'cloud_name' : 'hndjdlnwz',
     'api_key' : '575164376919133',
     'api_secret': 'rSsTkRqijFVDGeu089aOi5HLRYo'
 }
-
-STATIC_URL = '/static/'
-
-MEDIA_URL =  '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "api/media")

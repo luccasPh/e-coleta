@@ -1,9 +1,11 @@
 import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react'
-import { FiArrowLeft } from 'react-icons/fi'
+import { FiArrowLeft, FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Map, TileLayer, Marker } from "react-leaflet";
 import { LeafletMouseEvent } from "leaflet";
 import Notifications, { notify } from 'react-notify-toast';
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/core";
 
 import api from '../../services/api'
 import ibge from '../../services/ibge'
@@ -12,6 +14,7 @@ import Modal from '../../components/Modal'
 import Dropzone from "../../components/Dropzone"
 
 import './styles.css'
+import { TIMEOUT } from 'dns';
 
 
 interface Item{
@@ -29,6 +32,11 @@ interface City{
     nome: string
 }
 
+const override = css`
+    margin-left: 42%;
+    padding: 40px;
+`;
+
 
 const CreatePoints = () => {
     const [items, setItems] = useState<Item[]>([])
@@ -39,19 +47,22 @@ const CreatePoints = () => {
     const [selectedCity, setSelectedCity] = useState("0")
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0])
     const [initialPosition, setinitialPosition] = useState<[number, number]>([0,0])
+    const [initialZoom, setinitialZoom] = useState(14)
     const [selectedFile, setSelectedFile] = useState<File>()
 
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         whatsapp: '',
-        street: ''
+        street: '',
+        cep: '',
     })
 
     const [selectedItems, setSelectedItems] = useState<number[]>([])
 
-    const [state, setState] = useState({
-        modal: false,
+    const [modal, setModal] = useState({
+        display: false,
+        loading: false,
     })
 
 
@@ -84,7 +95,7 @@ const CreatePoints = () => {
 
             setinitialPosition([latitude, longitude])
         })
-    })
+    }, [])
 
     function handleSelectUf(event: ChangeEvent<HTMLSelectElement>){
         const uf = event.target.value
@@ -105,12 +116,12 @@ const CreatePoints = () => {
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>){
         const {name, value} = event.target
-
-        if(name === "whatsapp"){
+        if(name === "whatsapp" || name === "cep"){
             if(isNaN(Number(value))){
                 return
             }
         }
+        
         setFormData({...formData, [name]: value})
     }
 
@@ -160,11 +171,6 @@ const CreatePoints = () => {
             window.scrollTo(0, 0)
             return
         }
-        else if(whatsapp.length < 10){
-            notify.show('Digite um numero de Whatsapp valido!', 'warning')
-            window.scrollTo(0, 0)
-            return
-        }
         else if(latitude === 0){
             notify.show('Marque um Endereço no mapa!', 'warning')
             window.scrollTo(0, 0)
@@ -206,6 +212,12 @@ const CreatePoints = () => {
         dataSubmit.append('city', city)
         dataSubmit.append('items', items.join(','))
 
+        setModal({
+            display: true,
+            loading: true,
+        })
+
+        
         await api.post('points/', dataSubmit)
             .catch((errors) => {
                 if( errors.response ){
@@ -218,14 +230,27 @@ const CreatePoints = () => {
             return
         }
         document.body.style.overflow = 'hidden';
-        selectModal()
+
+        setModal({
+            display: true,
+            loading: false,
+        })
+        
     }
 
-    function selectModal (){
-        setState({
-          modal: true
+    
+    async function searchCEP(){
+        await api.get(`search-cep/${formData.cep}`).then(response =>{
+            const { latitude, logradouro, longitude } = response.data
+            setinitialPosition([latitude, longitude])
+            setinitialZoom(16)
+            setFormData({...formData, ['cep']: ''})
+            
+            if(logradouro !== undefined){
+                setFormData({...formData, ['street']: logradouro})
+            }
         })
-      }
+    }
     
     return (
         <div id="page-create-point">
@@ -291,13 +316,33 @@ const CreatePoints = () => {
                 </fieldset>
 
                 <fieldset>
-                    <legend>
+                    <legend style={{marginBottom: "10px"}}>
                         <h2>Endereço</h2>
                         <span>Selecione o endereço no mapa</span>
                     </legend>
 
+                    <div className="field-cep">
+                        <input 
+                            type="text"
+                            name="cep"
+                            id="cep"
+                            placeholder="Pesquisa pelo cep..."
+                            onChange={handleInputChange}
+                            maxLength={8}
+                            value={formData.cep}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => searchCEP()}
+                        >
+                            <span>
+                                <FiSearch />
+                            </span>
+                        </button>
+                    </div>
+
                     {initialPosition[0] !== 0 && (
-                        <Map center={initialPosition} zoom={15} onClick={handleMapClick}>
+                        <Map center={initialPosition} zoom={initialZoom} onClick={handleMapClick}>
                             <TileLayer
                                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -339,14 +384,15 @@ const CreatePoints = () => {
                         </div>
                     </div>
                     <div className="field">
-                            <label htmlFor="street">Logradouro/Rua</label>
-                            <input 
-                                type="text"
-                                name="street"
-                                id="street"
-                                onChange={handleInputChange}
-                            />
-                        </div>
+                        <label htmlFor="street">Logradouro/Rua</label>
+                        <input 
+                            type="text"
+                            name="street"
+                            id="street"
+                            onChange={handleInputChange}
+                            value={formData.street}
+                        />
+                    </div>
                 </fieldset>
 
                 <fieldset>
@@ -354,8 +400,8 @@ const CreatePoints = () => {
                         <h2>Ítens de coleta</h2>
                         <span>Selecione um ou mais ítens abaixo</span>
                     </legend>
-
-                    <ul className="items-grid">
+                    {items.length !== 0 ? (
+                        <ul className="items-grid">
                         {items.map(item =>(
                             <li 
                                 key={item.id} 
@@ -367,6 +413,16 @@ const CreatePoints = () => {
                             </li>
                         ))}
                     </ul>
+                    ):(
+                        <div className="itemsLoading">
+                            <ClipLoader
+                                css={override} 
+                                loading={true}
+                                color={"#2FB86E"}     
+                            />
+                            <span>Carregando ítems...</span>
+                        </div>
+                    )}
                 </fieldset>
                 
                 <button type="submit">
@@ -375,7 +431,8 @@ const CreatePoints = () => {
             </form>
 
             <Modal 
-                displayModal={state.modal}
+                displayModal={modal.display}
+                displayLoading={modal.loading}
             />
             <Notifications options={{zIndex: 200, top: '20px'}}/>
         </div>

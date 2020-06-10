@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.0.0-alpha",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/google-map-react": "^1.1.8",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.43",
     "@types/react": "^16.9.35",
@@ -13,6 +15,8 @@
     "@types/react-notify-toast": "^0.5.2",
     "axios": "^0.19.2",
     "easy-geocoder": "^1.1.2",
+    "emotion": "^10.0.27",
+    "google-map-react": "^1.1.7",
     "google-maps-react": "^2.0.6",
     "leaflet": "^1.6.0",
     "leaflet-control-geocoder": "^1.13.0",
@@ -25,6 +29,7 @@
     "react-notify-toast": "^0.5.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-spinners": "^0.8.3",
     "react-toastify": "^6.0.5",
     "recompose": "^0.30.0",
     "typescript": "^3.7.5"

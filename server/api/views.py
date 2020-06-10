@@ -8,6 +8,8 @@ from rest_framework.parsers import FileUploadParser
 from .models import *
 from .serializers import *
 
+import requests
+
 # Create your views here.
 class ItemList(APIView):
     def get(self, request):
@@ -72,4 +74,25 @@ class PointDetail(APIView):
             
         except:
             return Response({ 'error': f"id: {pk} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CEPAberto(APIView):
+    def get(self, request, cep):
+        try:
+            url = f"https://www.cepaberto.com/api/v3/cep?cep={cep}"
+            headers = {'Authorization': 'Token token=be7080c1ffea7a0ef315a294000bf3e4'}
+            response = requests.get(url, headers=headers)
+            json_response = response.json()
+            data = {}
+            data["latitude"], data["longitude"] = float(json_response["latitude"]), float(json_response["longitude"])
+            try:
+                data["logradouro"] = f"{json_response['logradouro']} Nº, {json_response['bairro']}"
+
+                return Response(data)
+            
+            except:
+                return Response(data)
+            
+        except:
+            return Response({ 'error': f"cep: {cep} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
     

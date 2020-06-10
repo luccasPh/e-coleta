@@ -201,3 +201,49 @@
     background: #E1FAEC;
     border: 2px solid #34CB79;
   }
+
+  .itemsLoading{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #page-create-point form .field-cep{
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  #page-create-point form .field-cep input[id=cep]{
+    width: 20px;
+    height: 10px;
+    margin-left: 410px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    flex: 1 1;
+    background: #F0F0F5;
+    border: 0;
+    padding: 16px 24px;
+    font-size: 12px;
+    color: #6C6C80;
+  }
+
+  #page-create-point form .field-cep button {
+    width: 40px;
+    height: 32px;
+    background: var(--primary-color);
+    border-radius: 0px;
+    color: #FFF;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 0;
+    align-self: flex-end;
+    margin-top: 0px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+#page-create-point form .field-cep button:hover {
+  background: #2FB86E;
+}

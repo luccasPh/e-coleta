@@ -166,7 +166,7 @@ const CreatePoints = () => {
             window.scrollTo(0, 0)
             return
         }
-        else if(whatsapp.length < 10){
+        else if(whatsapp.length < 11){
             notify.show('Digite um numero de Whatsapp valido!', 'warning')
             window.scrollTo(0, 0)
             return
@@ -308,7 +308,7 @@ const CreatePoints = () => {
                                 name="whatsapp"
                                 id="whatsapp"
                                 onChange={handleInputChange}
-                                maxLength={10}
+                                maxLength={11}
                                 value={formData.whatsapp}
                             />
                         </div>

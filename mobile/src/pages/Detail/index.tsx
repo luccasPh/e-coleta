@@ -71,11 +71,12 @@ const Detail = () => {
 
                 <View style={styles.address}>
                     <Text style={styles.addressTitle}>Endereço</Text>
+                    <Text style={styles.addressText}>{point.street}</Text>
+
                     <View style={styles.addressContent}>
                       <Text style={[styles.addressText, {paddingRight: 4}]}>{point.city},</Text>
                       <Text style={styles.addressText}>{point.uf}</Text>
                     </View>
-                    <Text style={styles.addressText}>{point.street}</Text>
                 </View>
             </View>
 
@@ -136,7 +137,6 @@ const styles = StyleSheet.create({
   
     addressContent: {
       flexDirection: 'row',
-      marginTop: 8,
 
     },
 

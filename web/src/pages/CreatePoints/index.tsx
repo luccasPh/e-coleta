@@ -6,6 +6,7 @@ import { LeafletMouseEvent } from "leaflet";
 import Notifications, { notify } from 'react-notify-toast';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/core";
+import Cookies from 'universal-cookie';
 
 import api from '../../services/api'
 import ibge from '../../services/ibge'
@@ -14,7 +15,6 @@ import Modal from '../../components/Modal'
 import Dropzone from "../../components/Dropzone"
 
 import './styles.css'
-import { TIMEOUT } from 'dns';
 
 
 interface Item{
@@ -37,6 +37,7 @@ const override = css`
     padding: 40px;
 `;
 
+const cookies = new Cookies();
 
 const CreatePoints = () => {
     const [items, setItems] = useState<Item[]>([])
@@ -65,9 +66,26 @@ const CreatePoints = () => {
         loading: false,
     })
 
+    useEffect(() => {
+        if(!cookies.get('token')){
+            const form = {
+                username: "web",
+                password: "lucas10p"
+            }
+            api.post('login/', form).then(response => {
+                cookies.set('token', `JWT ${response.data.token}`, 
+                {path: '/', expires: new Date(Date.now() + 3600000 * 24)})
+            })
+        }
+    }, [])
+
 
     useEffect(() => {
-        api.get('items').then(response => {
+        api.get('items', {
+            headers: {
+                Authorization: cookies.get('token')
+            }
+        }).then(response => {
             setItems(response.data)        
         })
     }, [])
@@ -218,7 +236,11 @@ const CreatePoints = () => {
         })
 
         
-        await api.post('points/', dataSubmit)
+        await api.post('points/', dataSubmit, {
+            headers: {
+                Authorization: cookies.get('token')
+            }
+        })
             .catch((errors) => {
                 if( errors.response ){
                     isError = true 
@@ -244,11 +266,10 @@ const CreatePoints = () => {
             const { latitude, logradouro, longitude } = response.data
             setinitialPosition([latitude, longitude])
             setinitialZoom(16)
-            setFormData({...formData, ['cep']: ''})
+            setFormData({...formData, cep: ''})
             
-            console.log("ok")
             if(logradouro !== undefined){
-                setFormData({...formData, ['street']: logradouro})
+                setFormData({...formData, street: logradouro})
             }
         })
     }

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import FileUploadParser
 
-from .models import *
+from .models import Point, Item
 from .serializers import *
 
 import requests

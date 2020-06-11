@@ -81,7 +81,7 @@ const Home = () => {
         Alert.alert("Atenção", "Selecione um Estado!")
         return
       }
-      else if(selectedCity === "0"){
+      else if(selectedCity === null || selectedCity === "0"){
         Alert.alert("Atenção", "Selecione uma Cidade!")
         return
       }
@@ -93,6 +93,7 @@ const Home = () => {
     }
 
     function handleSelectUf(uf: string){
+      setSelectedCity("0")
       setSelectedUf(uf)
     }
 
@@ -100,7 +101,6 @@ const Home = () => {
       setSelectedCity(city)
     }
 
-    console.log(itemsState)
     return (
         <ImageBackground
           source={require('../../assets/home-background.png')} 
@@ -140,7 +140,7 @@ const Home = () => {
                       >
                     </Icon.Button>);
               }}
-              placeholder={{label: 'Selecione um Estado', value: null}}
+              placeholder={{label: 'Selecione um Estado', value: "0"}}
               items={itemsState}
               onValueChange={(value) => handleSelectUf(value)}
             />

@@ -131,8 +131,8 @@ const Points = () => {
                           initialRegion={{
                               latitude: cityPosition?.latitude,
                               longitude: cityPosition?.longitude,
-                              latitudeDelta: 0.034,
-                              longitudeDelta: 0.034
+                              latitudeDelta: 0.054,
+                              longitudeDelta: 0.054
                           }}
                       >
                           {points.map(point => (

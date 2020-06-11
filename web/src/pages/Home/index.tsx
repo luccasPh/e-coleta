@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import logo from '../../assets/logo.svg'
 import './styles.css'
 import {FiLogIn} from 'react-icons/fi'
 import {Link} from 'react-router-dom'
 import Cookies from 'universal-cookie';
-import api from '../../services/api'
 
 const cookies = new Cookies();
 

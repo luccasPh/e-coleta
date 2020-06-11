@@ -43,6 +43,7 @@ const CreatePoints = () => {
     const [items, setItems] = useState<Item[]>([])
     const [states, setStates] = useState<State[]>([])
     const [cities, setCities] = useState<City[]>([])
+    const [token, setToken] = useState("")
 
     const [selectedUf, setSelectedUf] = useState("0")
     const [selectedCity, setSelectedCity] = useState("0")
@@ -73,14 +74,21 @@ const CreatePoints = () => {
                 password: "lucas10p"
             }
             api.post('login/', form).then(response => {
-                cookies.set('token', `JWT ${response.data.token}`, 
-                {path: '/', expires: new Date(Date.now() + 3600000 * 24)})
+                cookies.set('token', `JWT ${response.data.token}`) 
+                setToken(`JWT ${response.data.token}`)
             })
         }
+        else {
+            setToken(cookies.get('token'))
+        }
+
     }, [])
 
-
     useEffect(() => {
+        if(token === ""){
+            return 
+        }
+
         api.get('items', {
             headers: {
                 Authorization: cookies.get('token')
@@ -88,7 +96,7 @@ const CreatePoints = () => {
         }).then(response => {
             setItems(response.data)        
         })
-    }, [])
+    }, [token])
 
     useEffect(() => {
         ibge.get('estados').then(response => {

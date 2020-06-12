@@ -34,7 +34,7 @@ Essa aplicação foi construída durante <strong>Booster</strong> da <strong>Nex
 O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [Django REST framework](https://www.django-rest-framework.org/) e [Docker](https://www.docker.com/)
+- [Django REST framework](https://www.django-rest-framework.org/)
 - [Docker](https://www.docker.com/)
 - [ReactJS](https://reactjs.org/)
 - [React Native](https://reactnative.dev/)

@@ -20,7 +20,7 @@ export default function App() {
 
   useEffect(() => {
     const form = {
-      username: "web",
+      username: "mobile",
       password: "lucas10p"
     }
     api.post('login/', form).then(response => {
@@ -28,7 +28,6 @@ export default function App() {
       setTokenLoaded(true)
     })
   }, [])
-
 
   if(!fontsLoaded || !tokenLoaded){
     return <AppLoading />

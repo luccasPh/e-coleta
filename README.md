@@ -4,8 +4,9 @@
 
 ### Site: https://ecoletas.netlify.app/
 
-Server: [Django REST framework](https://www.django-rest-framework.org/)
+### Tecnologias:
+Server: [Django REST framework](https://www.django-rest-framework.org/) e [Docker](https://www.docker.com/)
 
 Web: [React](https://pt-br.reactjs.org/)<br>
 
-Mobile: [React Native](https://reactnative.dev/)
+Mobile: [React Native](https://reactnative.dev/) e [Expo](https://expo.io/)

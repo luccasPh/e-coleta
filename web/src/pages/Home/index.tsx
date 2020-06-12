@@ -3,9 +3,6 @@ import logo from '../../assets/logo.svg'
 import './styles.css'
 import {FiLogIn} from 'react-icons/fi'
 import {Link} from 'react-router-dom'
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const Home = () => {
 

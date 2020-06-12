@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import Constants from 'expo-constants'
-import * as Location from 'expo-location'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { View, Image ,Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native'
@@ -8,7 +7,7 @@ import Emoji from 'react-native-emoji';
 import MapView, { Marker } from 'react-native-maps'; 
 import { SvgUri } from 'react-native-svg';
 import api from '../../services/api'
-import FastImage from 'react-native-fast-image'
+import * as SecureStore from 'expo-secure-store';
 
 interface Item{
   id: number,
@@ -39,56 +38,57 @@ const Points = () => {
     const [points, setPoints] = useState<Point[]>([])
     const [selectedItems, setSelectedItems] = useState<number[]>([])
     const [cityPosition, setCityPosition] = useState<PointLL>()
-    const [initialPosition, setinitialPosition] = useState<[number, number]>([0,0])
     const route = useRoute()
     const routeParams = route.params as Params
     const navigation = useNavigation()
 
     useEffect(() => {
-      api.get('items/').then(response => {
-          setItems(response.data)        
+      SecureStore.getItemAsync('token').then(token => {
+        api.get('items/',{
+          headers: {
+            Authorization: token
+          }
+
+        }).then(response => {
+            setItems(response.data)        
+        })
       })
+
     }, [])
 
     useEffect(() => {
-      api.get(`points/${routeParams.selectedCity}/ll/`).then(response => {
-        setCityPosition(response.data)        
+      SecureStore.getItemAsync('token').then(token => {
+        api.get(`points/${routeParams.selectedCity}/ll/`, {
+            headers: {
+              Authorization: token
+            }
+
+          }).then(response => {
+          setCityPosition(response.data)        
+        })
       })
+      
     }, [])
 
     useEffect(() => {
+      SecureStore.getItemAsync('token').then(token => {
+        api.get('points/', {
+          headers: {
+            Authorization: token
+          },
 
-      api.get('points/', {
-        params: {
-          city: routeParams.selectedCity,
-          uf: routeParams.selectedUf,
-          items: [selectedItems]
-        }
+          params: {
+            city: routeParams.selectedCity,
+            uf: routeParams.selectedUf,
+            items: [selectedItems]
+          }
 
-      }).then(response => {
-          setPoints(response.data)        
+        }).then(response => {
+            setPoints(response.data)
+        })
       })
+
     }, [selectedItems])
-
-    useEffect(() => {
-      async function loadPosition(){
-        const { status } = await Location.requestPermissionsAsync()
-
-        if(status != 'granted'){
-          Alert.alert('Algo de errador nao esta certo...', 'Forneça permição para obter sua localização')
-        }
-
-        const location = await Location.getCurrentPositionAsync()
-        const { latitude, longitude } = location.coords
-
-        setinitialPosition([
-          latitude,
-          longitude
-        ])
-      }
-
-      loadPosition()
-    }, [])
 
     function handleNavigateBack(){
         navigation.goBack()
@@ -131,8 +131,8 @@ const Points = () => {
                           initialRegion={{
                               latitude: cityPosition?.latitude,
                               longitude: cityPosition?.longitude,
-                              latitudeDelta: 0.054,
-                              longitudeDelta: 0.054
+                              latitudeDelta: 0.204,
+                              longitudeDelta: 0.204
                           }}
                       >
                           {points.map(point => (

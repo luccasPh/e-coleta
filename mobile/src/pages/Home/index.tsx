@@ -3,14 +3,15 @@ import { View, Image, ImageBackground, Text, StyleSheet, Alert } from 'react-nat
 import { RectButton } from "react-native-gesture-handler";
 import { Feather as Icon } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
 import RNPickerSelect from 'react-native-picker-select';
 import api from '../../services/api'
 
-interface IbgeState{
+interface States{
   uf: string,
 }
 
-interface IbgeCity{
+interface Cities{
   city: string
 }
 
@@ -33,25 +34,32 @@ const Home = () => {
         value: ''
       }]
 
-      api.get<IbgeState[]>(`points/uf/`).then(response => {
-          response.data.map(state => {
-            data.push({
-              label: state.uf, 
-              value: state.uf
+      SecureStore.getItemAsync('token').then(token => {
+        api.get<States[]>(`points/uf/`, {
+          headers: {
+            Authorization: token
+          }
+
+        }).then(response => {
+            response.data.map(state => {
+              data.push({
+                label: state.uf, 
+                value: state.uf
+              })
             })
-          })
-          data.shift()
-          const dataFilter = Array.from(new Set(data.map(a => a.label)))
-            .map(label => {
-              return data.find(a => a.label === label)
-            })
-          
-          setItemsState(dataFilter)
+            data.shift()
+            const dataFilter = Array.from(new Set(data.map(a => a.label)))
+              .map(label => {
+                return data.find(a => a.label === label)
+              })
+            
+            setItemsState(dataFilter)
+        })
       })
     }, [])
 
     useEffect(() => {
-      if(selectedUf === null) {
+      if(selectedUf === "0") {
           return
       }
   
@@ -59,21 +67,30 @@ const Home = () => {
         label: '',
         value: ''
       }]
-      api.get<IbgeCity[]>(`points/${selectedUf}/city/`).then(response => {
-          response.data.map(uf => {
-            data.push({
-              label: uf.city, 
-              value: uf.city
-            })
-          })
 
-          data.shift()
-          const dataFilter = Array.from(new Set(data.map(a => a.label)))
-            .map(label => {
-              return data.find(a => a.label === label)
+      SecureStore.getItemAsync('token').then(token => {
+        api.get<Cities[]>(`points/${selectedUf}/city/`, {
+          headers: {
+            Authorization: token
+          }
+          
+        }).then(response => {
+            response.data.map(uf => {
+              data.push({
+                label: uf.city, 
+                value: uf.city
+              })
             })
-          setItemsCities(dataFilter)
+
+            data.shift()
+            const dataFilter = Array.from(new Set(data.map(a => a.label)))
+              .map(label => {
+                return data.find(a => a.label === label)
+              })
+            setItemsCities(dataFilter)
+        })
       })
+
     }, [selectedUf])
 
     function handleNavigationPoints(){
@@ -100,7 +117,7 @@ const Home = () => {
     function handleSelectCity(city: string){
       setSelectedCity(city)
     }
-
+    
     return (
         <ImageBackground
           source={require('../../assets/home-background.png')} 

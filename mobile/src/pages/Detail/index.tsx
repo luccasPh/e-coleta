@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { View, Image ,Text, StyleSheet, TouchableOpacity, SafeAreaView, Linking } from 'react-native'
 import { RectButton } from "react-native-gesture-handler";
 import * as MailComposer from 'expo-mail-composer';
+import * as SecureStore from 'expo-secure-store';
 import api from '../../services/api'
 
 interface Params {
@@ -31,9 +32,16 @@ const Detail = () => {
     const routeParams = route.params as Params
 
     useEffect(() => {
-        api.get(`points/${routeParams.point_id}`).then(response => {
+      SecureStore.getItemAsync('token').then(token => {
+        api.get(`points/${routeParams.point_id}`, {
+          headers: {
+            Authorization: token
+          }
+        }).then(response => {
             setPoint(response.data)
         })
+      })
+
     }, [])
 
     function handleNavigateBack(){
@@ -42,7 +50,7 @@ const Detail = () => {
 
     function handleComposeMail(){
         MailComposer.composeAsync({
-            subject: "Interese na coleta de resíduos",
+            subject: "Interesse na coleta de resíduos",
             recipients: [point.email],
         })
     }

@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+import { FiUpload } from 'react-icons/fi';
 
 
 import './style.css'
@@ -34,7 +35,10 @@ const Dropzone: React.FC<Props> = ({fileUpload}) => {
                 : (
                     isDragActive ?
                     <p>Solte a imagem aqui ...</p> :
-                    <p>Arraste e solte alguma imagem aqui ou clique para selecionar {<br/>} uma imagem!</p>
+                    <p>
+                        <FiUpload />
+                        Arraste e solte alguma imagem aqui ou clique para selecionar {<br/>} uma imagem!
+                    </p>
                 )
         }
         </div>

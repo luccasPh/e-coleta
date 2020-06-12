@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "e-coleta",
+    "slug": "e-coleta",
     "platforms": [
       "ios",
       "android",
@@ -26,7 +26,12 @@
     },
     "android": {
       "package": "com.luccasph.ecoleta",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAJ5-N_5-2ITPw2CtV-KJcwNml1fd6y41s"
+        }
+      }
     }
   }
 }

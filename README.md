@@ -15,6 +15,7 @@
   <a href="https://insomnia.rest/run/?label=Ecoleta&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fvitorserrano%2Fecoleta%2Fmaster%2F.github%2FInsomnia_2020-06-05.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
 </p>
 
+<<<<<<< HEAD
 # Índice
 
 - [Sobre](#sobre)
@@ -124,3 +125,13 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para
 <h4 align="center">
     Feito com 💜 by <a href="https://www.linkedin.com/in/vitor-serrano/" target="_blank">Vitor Serrano</a>
 </h4>
+=======
+### Site: https://ecoletas.netlify.app/
+
+### Tecnologias:
+Server: [Django REST framework](https://www.django-rest-framework.org/) e [Docker](https://www.docker.com/)
+
+Web: [React](https://pt-br.reactjs.org/)<br>
+
+Mobile: [React Native](https://reactnative.dev/) e [Expo](https://expo.io/)
+>>>>>>> ab3e6ba40c29b2a77ae5485ae92b29c509b9380a

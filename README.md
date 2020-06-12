@@ -40,7 +40,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 ## :heavy_check_mark: :computer: Resultado Web
 
 <h1 align="center">
-    <img alt="Web" src=".github/Video.gif" width="900px">
+    <img alt="Web" src=".github/web.gif" width="900px">
 </h1>
 
 <h1 align="center">
@@ -50,8 +50,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 ## :heavy_check_mark: :iphone: Resultado Mobile
 
 <h1 align="center">
-    <img alt="Mobile Home" src=".github/Home.png" width="300px">
-    <img alt="Mobile Detail" src=".github/Detail.svg" width="300px">
+    <img alt="Mobile" src=".github/mobile.gif" width="300px">
 </h1>
 
 <a id="como-usar"></a>

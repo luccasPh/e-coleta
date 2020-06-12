@@ -9,7 +9,8 @@
   <a href="https://rocketseat.com.br">
     <img alt="Made by Rocketseat" src="https://img.shields.io/badge/made%20by-Rocketseat-%237519C1">
   </a>
-  <a>
+   <a>
+  <img alt="License" src="https://img.shields.io/github/license/vitorserrano/ecoleta?color=%237519C1">
   <br><br>
       
 # Índice
@@ -26,6 +27,8 @@ O <strong>Ecoleta</strong> é uma aplicação Web e Mobile para ajudar pessoas a
 
 Essa aplicação foi construída durante <strong>Booster</strong> da <strong>Next Level Week</strong> distribuída pela [Rocketseat](https://rocketseat.com.br/) e teve como fonte de ideia <strong>semana do meio ambiente</strong>.
 
+<a id="tecnologias-utilizadas"></a>
+
 ## :rocket: Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias
@@ -36,6 +39,8 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 - [ReactJS](https://reactjs.org/)
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.io/)
+
+<a id="resultado"></a>
 
 ## :heavy_check_mark: :computer: Resultado Web
 
@@ -53,18 +58,12 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
     <img alt="Mobile" src=".github/mobile.gif" width="300px">
 </h1>
 
+<h1 align="center">
+    <a href="https://ecoletas.netlify.app">Apk</a>
+</h1>
+
 <a id="como-usar"></a>
 
 <h4 align="center">
-    Feito com 💜 by <a href="https://www.linkedin.com/in/vitor-serrano/" target="_blank">Vitor Serrano</a>
+    Power by <a href="https://www.linkedin.com/in/lucas-pinheiro-462794152/" target="_blank">Lucas Pinheiro</a>
 </h4>
-=======
-### Site: https://ecoletas.netlify.app/
-
-### Tecnologias:
-Server: [Django REST framework](https://www.django-rest-framework.org/) e [Docker](https://www.docker.com/)
-
-Web: [React](https://pt-br.reactjs.org/)<br>
-
-Mobile: [React Native](https://reactnative.dev/) e [Expo](https://expo.io/)
->>>>>>> ab3e6ba40c29b2a77ae5485ae92b29c509b9380a
